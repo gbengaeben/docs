@@ -35,6 +35,9 @@ jobs:
       - name: Check nav coverage
         run: pnpm run check:nav-coverage
 
+      - name: Check contract registry
+        run: pnpm run check:contract-registry
+
   stellar-testnet-snippets:
     name: Stellar snippet testnet validation
     runs-on: ubuntu-latest
