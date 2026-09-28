@@ -64,6 +64,28 @@ rejects stale contract placeholders anywhere in the shipped `.mdx` pages, confir
 every deployed address is documented, and verifies that the network guide, SDK,
 quickstart, and contracts pages link back to the registry.
 
+The registry is only canonical if it matches reality, so the checker also
+cross-verifies it against pinned authoritative sources:
+
+- **SDK manifest** — every address recorded under an `sdkKey` must exactly match
+  `getDeployment()` from the `@wraith-protocol/sdk` version resolved by the
+  lockfile, and every SDK-published contract must be recorded. The registry's
+  `sdkVersion` must match the installed package version.
+- **On-chain state** — for each live testnet contract, the WASM hash reported by
+  the Stellar Expert API must equal the recorded `artifactHash`, the on-chain
+  creation timestamp must fall on `deployedAt`, and the recorded
+  `deploymentLedger` must close on `deployedAt` per Horizon.
+- **Contracts manifest** — fetched at the commit recorded in
+  `pinnedContractsRepoCommit`. Mainnet placeholder status (`C[TBD]` vs. real
+  addresses) must agree between the registry and the manifest, and
+  upgradeability claims must match the manifest's governance section.
+
+The network checks run in CI on every PR. Locally you can skip them with:
+
+```bash
+node scripts/check-contract-registry.mjs --offline
+```
+
 When a deployment lands, update `scripts/contract-registry.json` first, then update
 the pages that quote it. Never ship a placeholder contract id such as
 `CPLACEHOLDER_*` or `C[TBD]` — CI fails on those patterns.

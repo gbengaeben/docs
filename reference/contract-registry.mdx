@@ -6,7 +6,7 @@ keywords: "Stellar, contract registry, testnet, futurenet, mainnet, soroban, con
 
 This page is the **canonical registry** for Wraith Protocol contract deployments. An address only ships here after it is recorded in the SDK deployment manifest and the contracts repo deployment manifest. If you find a contract address anywhere else in the docs, compare it against this page.
 
-The machine-readable copy lives at [`scripts/contract-registry.json`](https://github.com/wraith-protocol/docs/blob/develop/scripts/contract-registry.json). CI validates every shipped page against it and fails when a stale placeholder is reintroduced.
+The machine-readable copy lives at [`scripts/contract-registry.json`](https://github.com/wraith-protocol/docs/blob/develop/scripts/contract-registry.json). CI cross-verifies every recorded fact against pinned authoritative sources — the `@wraith-protocol/sdk` `getDeployment()` manifest from the lockfile, the live on-chain WASM hash and creation timestamp for each deployed contract, and the contracts-repo deployment manifest at a pinned commit — and fails when any of them disagree or when a stale placeholder is reintroduced.
 
 <Note>
   Public testnet contract state can change at any time, and testnet is reset roughly
